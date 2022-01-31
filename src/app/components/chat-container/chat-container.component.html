@@ -1,0 +1,4 @@
+<chat-header [sender]="chatTarget"></chat-header>
+<chat-message *ngFor="let msg of messages ; trackBy: trackMessages" [message]="msg"></chat-message>
+<div style="padding: 2rem;" scrollLock tagName="chat-message" [snapEvent]="updateObs"></div>
+<chat-footer class="footer-container"></chat-footer>

@@ -13,5 +13,11 @@
     {
       "path": "./tsconfig.spec.json"
     }
-]
+  ],
+  "angularCompilerOptions": {
+    "strictTemplates": true
+  },
+  "compilerOptions": {
+    "esModuleInterop": true
+  }
 }

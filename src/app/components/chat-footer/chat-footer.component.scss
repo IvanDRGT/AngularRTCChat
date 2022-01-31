@@ -1,0 +1,12 @@
+.container{
+  background-color: var(--bg);
+  color: black;
+  width: 100%;
+}
+.message-input{
+  color: white;
+  width: 100%;
+  & > div{
+    padding: 0;
+  }
+}

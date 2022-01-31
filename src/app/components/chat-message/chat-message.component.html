@@ -1,0 +1,7 @@
+<div [class]="styleClass">
+  <b class="message-header">{{sender}}</b>
+  <p *ngIf="!image; else imageTemplate" class="message-body">{{msgBody}}</p>
+</div>
+<ng-template #imageTemplate>
+  <img class="message-image" [src]="image" (click)="openPreview()">
+</ng-template>

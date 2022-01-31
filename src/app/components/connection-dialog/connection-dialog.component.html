@@ -1,0 +1,19 @@
+<div *ngIf="ready | async; else notReady" fxLayout="column">
+  <h4>Your Connection Host: {{ machineId }}</h4>
+  <ng-container *ngIf="displayName">
+    <h4>Your name: <b>{{displayName}}</b></h4>
+  </ng-container>
+  <mat-form-field appearance="fill" color="dark" class="target-input">
+    <mat-label>{{ displayName ? "Host" : "Display Name" }}</mat-label>
+    <input matInput type="text" [formTarget]="target" [formControl]="target" (keyup.enter)="submit()" />
+    <button matSuffix mat-icon-button (click)="submit()">
+    </button>
+  </mat-form-field>
+  <button class="change-name-button" [disabled]="!target.valid" color="primary" mat-raised-button (click)="submit()">
+    <mat-icon>done</mat-icon>
+  </button>
+  <button *ngIf="displayName" mat-raised-button class="change-name-button" (click)="clearDisplayName()">Change Name</button>
+</div>
+<ng-template #notReady>
+  <div>Connecting...</div>
+</ng-template>
