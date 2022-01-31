@@ -15,9 +15,10 @@
     }
   ],
   "angularCompilerOptions": {
-    "strictTemplates": true
+    "strictTemplates": true,
+    "strictInjectionParameters": true
   },
   "compilerOptions": {
-    "esModuleInterop": true
+    "allowSyntheticDefaultImports":true,
   }
 }

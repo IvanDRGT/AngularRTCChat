@@ -36,7 +36,7 @@ export class ConnectionHandlerService {
     },
   };
 
-  private peer: Peer;
+  private peer: any;
   private connection: DataConnection;
 
   private chatSubject: BehaviorSubject<Nullable<ChatData>> =
