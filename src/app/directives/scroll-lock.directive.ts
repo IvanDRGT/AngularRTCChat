@@ -16,12 +16,6 @@ export class ScrollLockDirective implements OnInit, AfterViewChecked, OnDestroy 
     this.snapperElement = el.nativeElement;
   }
   ngOnInit(): void {
-    this.subs.push(
-      fromEvent(this.document, 'resize').subscribe(_ => {
-        console.log(true);
-        this.snap = true;
-      })
-    )
     if (this.snapSetter)
       this.subs.push(
         this.snapSetter.pipe(

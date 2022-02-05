@@ -17,7 +17,7 @@ export class ChatFooterComponent implements OnInit {
 
   ngOnInit(): void {}
   submit(): void {
-    if (this.connHandler.sendMessage(this.messageControl.value))
+    if ((this.messageControl.value as string).length > 0 && this.connHandler.sendMessage(this.messageControl.value))
       this.messageControl.patchValue('');
   }
 }

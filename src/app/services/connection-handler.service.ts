@@ -163,29 +163,28 @@ export class ConnectionHandlerService {
     });
     connection.on('data', (data: string) => {
       if ((typeof data) === 'string') {
-        this.getSingleChatData().subscribe((chat: ChatData) => {
-          const name = this.findName(data);
-          if(name){
-            this.chatSubject.next({
-              targetName: name,
-              messages: chat.messages.map((msg: Message) => {
-                msg.sender = msg.sender === this.displayName ? msg.sender : name;
-                return msg;
-              })
-            } as ChatData);
-          }
-          else{
-            this.chatSubject.next({
-              ...chat,
-              messages: chat.messages.concat({
-                id: UUID.UUID(),
-                sender: chat.targetName,
-                body: data,
-                isCurrent: false
-              })
-            });
-          }
-        });
+
+        const name = this.findName(data);
+        if(name){
+          this.chatSubject.next({
+            targetName: name,
+            messages: this.chatSubject.value.messages.map((msg: Message) => {
+              msg.sender = msg.sender === this.displayName ? msg.sender : name;
+              return msg;
+            })
+          } as ChatData);
+        }
+        else{
+          this.chatSubject.next({
+            ...this.chatSubject.value,
+            messages: this.chatSubject.value.messages.concat({
+              id: UUID.UUID(),
+              sender: this.chatSubject.value.targetName,
+              body: data,
+              isCurrent: false
+            })
+          });
+        }
       }
     });
   }
@@ -199,7 +198,7 @@ export class ConnectionHandlerService {
   }
 
   private ensurePeer() {
-    this.peer = new Peer(this.machineId, this.peerJsOptions);
+    this.connectToMediator();
     this.peer.on('open', (id: string) => {
       this.machineId = id;
       this.statusSubject.next('open');
@@ -207,11 +206,15 @@ export class ConnectionHandlerService {
     this.peer.on('connection', (dc: DataConnection) => {
       this.openConnection(dc);
     });
-    this.peer.on('error', () => this.statusSubject.next('open'));
-    this.peer.on('disconnected', () => this.statusSubject.next('open'));
+    this.peer.on('error', () => this.connectToMediator());
+    this.peer.on('disconnected', () => this.connectToMediator());
   }
 
   private getSingleChatData(): Observable<ChatData> {
     return this.chatObs.pipe(take(1));
+  }
+  private connectToMediator(){
+    this.peer = new Peer(this.machineId, this.peerJsOptions);
+    this.statusSubject.next('opening');
   }
 }
